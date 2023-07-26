@@ -4,7 +4,7 @@ This is for my personal deployment of Cozyring on Vercel.
 
 ## Joining my ring
 
-Make a pull request, adding your site entry to `sites.json`.
+Make a pull request, adding your site entry to `sites.json`, and wait for approval.
 
 ## Deploying your own
 
