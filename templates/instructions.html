@@ -32,8 +32,8 @@
         </li>
         <li>Link to a random site in Cozyring (optional):
             <ul>
-                <li><a href="{{ url_for('random') }}">{{ url_for('random') }}</a></li>
-                <li>Text: <code>{{ url_for('random') }}</code></li>
+                <li><a href="{{ url_for('random_other', slug=slug_passed) }}">{{ url_for('random_other', slug=slug_passed) }}</a></li>
+                <li>Text: <code>{{ url_for('random_other', slug=slug_passed) }}</code></li>
             </ul>
         </li>
         <li>Link to the Cozyring landing page (optional):
