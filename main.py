@@ -16,10 +16,19 @@ with open("sites.json", "r") as fp:
 sites = json.loads(raw)["sites"]
 
 index = {}
+lst = {}
 
 for i in range(0, len(sites)):
     slug = sites[i]["slug"]
     index[slug] = i
+    lst[i] = {
+        "slug": sites[i]["slug"],
+        "url": sites[i]["url"],
+        "name": sites[i]["name"]
+    }
+
+print(lst)
+print(index)
 
 # Disable the documentation.
 
@@ -42,36 +51,46 @@ async def get_inst(slug: str, request: Request):
     if not slug in index:
         raise HTTPException(status_code=404, detail="Invalid webring slug.")
     n = index[slug]
-    url = sites[n]["url"]
-    name = sites[n]["name"]
+    url = lst[n]["url"]
+    name = lst[n]["name"]
     return templates.TemplateResponse("instructions.html", {"request": request, "slug_passed": slug, "url": url, "name": name})
 
 @app.get("/next/{slug}", name="next")
 async def get_next(slug: str):
-    if len(sites) == 0:
+    if len(lst) == 0:
         raise HTTPException(status_code=404, detail="No sites in webring.")
     if not slug in index:
         raise HTTPException(status_code=404, detail="Invalid webring slug.")
-    n = (index[slug] + 1) % (len(sites))
-    url = sites[n]["url"]
+    n = (index[slug] + 1) % (len(lst))
+    url = lst[n]["url"]
     return RedirectResponse(url)
 
 @app.get("/prev/{slug}", name="previous")
 async def get_prev(slug: str):
-    if len(sites) == 0:
+    if len(lst) == 0:
         raise HTTPException(status_code=404, detail="No sites in webring.")
     if not slug in index:
         raise HTTPException(status_code=404, detail="Invalid webring slug.")
-    n = (index[slug] - 1) % (len(sites))
-    url = sites[n]["url"]
+    n = (index[slug] - 1) % (len(lst))
+    url = lst[n]["url"]
     return RedirectResponse(url)
 
 @app.get("/random", name="random")
 async def get_random():
-    if len(sites) == 0:
+    if len(lst) == 0:
         raise HTTPException(status_code=404, detail="No sites in webring.")
-    n = randint(0, len(sites) - 1)
-    url = sites[n]["url"]
+    n = randint(0, len(lst) - 1)
+    url = lst[n]["url"]
+    return RedirectResponse(url)
+
+@app.get("/random/{slug}", name="random_other")
+async def get_random_other(slug: str):
+    if len(lst) == 0:
+        raise HTTPException(status_code=404, detail="No sites in webring.")
+    n = randint(0, len(lst) - 2)
+    if n >= index[slug]:
+        n += 1
+    url = lst[n]["url"]
     return RedirectResponse(url)
 
 @app.exception_handler(StarletteHTTPException)
