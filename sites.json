@@ -14,11 +14,18 @@
 		"slug": "wocrekcatta",
 		"url": "https://nathanchung.dev"
 	},
-{
-"name": "Vidhan",
-"slug": "vidhan",
-"url": "https://vidhan.io"
-},
+	{
+		"name": "Vidhan",
+		"slug": "vidhan",
+		"url": "https://vidhan.io"
+	},
+	{
+		"name": "Arnav Kumar",
+		"slug": "arnav",
+		"url": "https://arnavcs.github.io"
+	}
+],
+"archived": [
 	{
 		"name": "Rishi Kothari",
 		"slug": "r",
@@ -29,4 +36,5 @@
 		"slug": "keanem3",
 		"url": "https://itskeane.info"
 	}
-]}
+]
+}
